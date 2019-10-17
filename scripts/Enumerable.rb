@@ -1,16 +1,24 @@
 module Enumerable
   def my_each
-    for i in 0...(self.size)
-      yield self[i]
+    for i in 0...self.size
+      yield(self[i])
     end
   end
 
-  #
-  # def my_each_with_index
-  # end
-  #
-  # def my_select
-  # end
+  def my_each_with_index
+    for i in 0...self.size
+      yield(self[i], i)
+    end
+  end
+
+  def my_select
+    select=[]
+    self.my_each {|item|
+      select << item if yield item
+    }
+    return select
+  end
+
   #
   # def my_all?
   # end
@@ -31,8 +39,26 @@ module Enumerable
   # end
 end
 
-array=[(0..9).to_a]
+puts "Created Array"
+array_num=(1..30).to_a
+puts array_num
+puts "-----------------"
 
-array.my_each do |item|
+puts "my_each"
+array_num.my_each { |item|
   puts item
-end
+}
+puts "-----------------"
+
+puts "my_each_with_index"
+array_num.my_each_with_index { |element,index|
+  puts "#{element[index]}: #{index}"
+}
+puts "-----------------"
+
+puts "my_select"
+puts array_num.my_select{ |item| item%2==0}
+puts "-----------------"
+
+puts ""
+puts "-----------------"
