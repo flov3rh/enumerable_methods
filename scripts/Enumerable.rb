@@ -15,34 +15,23 @@ module Enumerable
 
   def my_select
     select=[]
-    self.my_each {|item|
-      select << item if yield item
-    }
+    self.my_each {|item| select << item if yield item}
     return select
   end
 
   def my_all? #(my_proc=Proc.new { |obj| obj })
     all=true
-    for i in 0...self.size
-      all=false unless yield self[i]
-    end
+    self.my_each {|item| all=false unless yield item}
     return all
   end
 
   def my_any? #(my_proc=Proc.new { |obj| obj })
     any=false
-    for i in 0...self.size
-      any=true if yield self[i]
-    end
+    self.my_each {|item| any=true if yield item}
     return any
   end
 
   def my_none? (my_proc=Proc.new { |obj| obj })
-    # none=true
-    # for i in 0...self.size
-    #   none=false if yield self[i]
-    # end
-    # return none
     return !my_any?(&my_proc)
   end
 
@@ -78,7 +67,7 @@ puts array_num.my_select{ |item| item%2==0}
 puts "-----------------"
 
 puts "my_all?"
-puts array_num.my_all?{ |item| item>0}
+puts array_num.my_all?{ |item| item<0}
 puts "-----------------"
 
 puts "my_any?"
