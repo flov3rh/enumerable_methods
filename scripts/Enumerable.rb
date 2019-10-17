@@ -49,9 +49,11 @@ module Enumerable
     return count
   end
 
-  def my_map
+  def my_map(my_proc=nil)
     map=[]
-    if block_given?
+    if my_proc
+      my_proc.call
+    elsif block_given?
       self.each { |item| map << yield(item)}
     else
       return self.to_enum
@@ -128,10 +130,14 @@ puts "my_map with no block"
 puts array_num.my_map
 puts "-----------------"
 
+puts "my_map with proc"
+puts array_num.my_map(&Proc.new{|item| item+1})
+puts "-----------------"
+
 puts "my_inject"
 puts array_num.my_inject { |sum, n| sum + n }
 puts "-----------------"
 
 puts "multiply_els"
-puts [1,2,3].multiply_els([1,2,3])
+puts [2,4,5].multiply_els([2,4,5])
 puts "-----------------"
