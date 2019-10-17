@@ -66,6 +66,11 @@ module Enumerable
     return memo
   end
 
+  def multiply_els(array)
+    result=1
+    array.my_inject(result) { |mult,item| result=mult*item}
+  end
+
 end
 
 #-------------------------------------------------------------------------------
@@ -125,4 +130,8 @@ puts "-----------------"
 
 puts "my_inject"
 puts array_num.my_inject { |sum, n| sum + n }
+puts "-----------------"
+
+puts "multiply_els"
+puts [1,2,3].multiply_els([1,2,3])
 puts "-----------------"
