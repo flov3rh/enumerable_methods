@@ -37,9 +37,10 @@ module Enumerable
     return any
   end
 
-  # def my_none?
-  # end
-  #
+  def my_none?
+
+  end
+
   # def my_count
   # end
   #
@@ -63,7 +64,7 @@ puts "-----------------"
 
 puts "my_each_with_index"
 array_num.my_each_with_index { |element,index|
-  puts "#{element[index]}: #{index}"
+  puts "#{element}: #{index}"
 }
 puts "-----------------"
 
@@ -77,4 +78,8 @@ puts "-----------------"
 
 puts "my_any?"
 puts array_num.my_any?{ |item| item>0}
+puts "-----------------"
+
+puts "my_none"
+
 puts "-----------------"
