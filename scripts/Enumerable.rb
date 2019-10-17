@@ -19,10 +19,14 @@ module Enumerable
     return select
   end
 
-  #
-  # def my_all?
-  # end
-  #
+  def my_all? #(my_proc=Proc.new { |obj| obj })
+    all=true
+    for i in 0...self.size
+      all=false unless yield self[i]
+    end
+    return all
+  end
+
   # def my_any?
   # end
   #
@@ -60,5 +64,6 @@ puts "my_select"
 puts array_num.my_select{ |item| item%2==0}
 puts "-----------------"
 
-puts ""
+puts "my_all?"
+puts array_num.my_all?{ |item| item>0}
 puts "-----------------"
