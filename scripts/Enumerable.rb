@@ -33,13 +33,22 @@ module Enumerable
 
   def my_none? #(my_proc=Proc.new { |obj| obj })
     none=true
-    self.each { |item| none=false if yield item}
+    self.my_each { |item| none=false if yield item}
     return none
   end
 
-  # def my_count
-  # end
-  #
+  def my_count(compare=nil)
+    count=0
+    if block_given?
+      self.my_each { |item| count+=1 if yield item}
+    elsif compare!=nil
+      self.my_each { |item| count+=1 if item==compare}
+    else
+      self.each { |item| count+=1}
+    end
+    return count
+  end
+
   # def my_map
   # end
   #
@@ -78,4 +87,16 @@ puts "-----------------"
 
 puts "my_none?"
 puts array_num.my_none?{ |item| item>50}
+puts "-----------------"
+
+puts "my_count with block"
+puts array_num.my_count{ |item| item>25}
+puts "-----------------"
+
+puts "my_count with compare arg"
+puts array_num.my_count(5)
+puts "-----------------"
+
+puts "my_count with no block"
+puts array_num.my_count
 puts "-----------------"
