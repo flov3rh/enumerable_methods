@@ -37,8 +37,13 @@ module Enumerable
     return any
   end
 
-  def my_none?
-
+  def my_none? (my_proc=Proc.new { |obj| obj })
+    # none=true
+    # for i in 0...self.size
+    #   none=false if yield self[i]
+    # end
+    # return none
+    return !my_any?(&my_proc)
   end
 
   # def my_count
@@ -81,5 +86,5 @@ puts array_num.my_any?{ |item| item>0}
 puts "-----------------"
 
 puts "my_none"
-
+puts array_num.my_none?{ |item| item<50}
 puts "-----------------"
