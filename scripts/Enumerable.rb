@@ -49,9 +49,16 @@ module Enumerable
     return count
   end
 
-  # def my_map
-  # end
-  #
+  def my_map
+    map=[]
+    if block_given?
+      self.each { |item| map << yield(item)}
+    else
+      return self.to_enum
+    end
+    return map
+  end
+
   # def my_inject
   # end
 end
@@ -99,4 +106,12 @@ puts "-----------------"
 
 puts "my_count with no block"
 puts array_num.my_count
+puts "-----------------"
+
+puts "my_map"
+puts array_num.my_map{ |item| item**2}
+puts "-----------------"
+
+puts "my_map with no block"
+puts array_num.my_map
 puts "-----------------"
