@@ -1,3 +1,5 @@
+# ruby scripts/Enumerable.rb
+
 module Enumerable
   def my_each
     for i in 0...self.size
@@ -27,9 +29,14 @@ module Enumerable
     return all
   end
 
-  # def my_any?
-  # end
-  #
+  def my_any? #(my_proc=Proc.new { |obj| obj })
+    any=false
+    for i in 0...self.size
+      any=true if yield self[i]
+    end
+    return any
+  end
+
   # def my_none?
   # end
   #
@@ -45,7 +52,7 @@ end
 
 puts "Created Array"
 array_num=(1..30).to_a
-puts array_num
+puts "#{array_num}"
 puts "-----------------"
 
 puts "my_each"
@@ -66,4 +73,8 @@ puts "-----------------"
 
 puts "my_all?"
 puts array_num.my_all?{ |item| item>0}
+puts "-----------------"
+
+puts "my_any?"
+puts array_num.my_any?{ |item| item>0}
 puts "-----------------"
