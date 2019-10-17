@@ -59,9 +59,16 @@ module Enumerable
     return map
   end
 
-  # def my_inject
-  # end
+  def my_inject(param=nil)
+    raise "No block given" unless block_given?
+    memo= param ? param : 0
+    self.my_each { |item| memo=yield(memo,item)}
+    return memo
+  end
+
 end
+
+#-------------------------------------------------------------------------------
 
 puts "Created Array"
 array_num=(1..30).to_a
@@ -114,4 +121,8 @@ puts "-----------------"
 
 puts "my_map with no block"
 puts array_num.my_map
+puts "-----------------"
+
+puts "my_inject"
+puts array_num.my_inject { |sum, n| sum + n }
 puts "-----------------"
