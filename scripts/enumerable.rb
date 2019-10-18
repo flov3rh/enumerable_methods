@@ -1,17 +1,17 @@
 module Enumerable
   def my_each
-    i=0
-    while i<self.size
+    i = 0
+    while i < size
       yield(self[i])
-      i+=1
+      i += 1
     end
   end
 
   def my_each_with_index
-    i=0
-    while i<self.size
+    i = 0
+    while i < size
       yield(self[i], i)
-      i+=1
+      i += 1
     end
   end
 
@@ -101,19 +101,19 @@ puts array_num.my_select(&:even?)
 puts '-----------------'
 
 puts 'my_all?'
-puts array_num.my_all?{ |item| item.negative? }
+puts array_num.my_all?(&:negative?)
 puts '-----------------'
 
 puts 'my_any?'
-puts array_num.my_any?{ |item| item > 20 }
+puts array_num.my_any? { |item| item > 20 }
 puts '-----------------'
 
 puts 'my_none?'
-puts array_num.my_none?{ |item| item > 50 }
+puts array_num.my_none? { |item| item > 50 }
 puts '-----------------'
 
 puts 'my_count with block'
-puts array_num.my_count{ |item| item > 25 }
+puts array_num.my_count { |item| item > 25 }
 puts '-----------------'
 
 puts 'my_count with compare arg'
@@ -125,7 +125,7 @@ puts array_num.my_count
 puts '-----------------'
 
 puts 'my_map'
-puts array_num.my_map{ |item| item**2 }
+puts array_num.my_map { |item| item**2 }
 puts '-----------------'
 
 puts 'my_map with no block'
@@ -133,11 +133,11 @@ puts array_num.my_map
 puts '-----------------'
 
 puts 'my_map with proc'
-puts array_num.my_map(&Proc.new { |item| item + 1 })
+puts array_num.my_map(&proc { |item| item + 1 })
 puts '-----------------'
 
 puts 'my_inject'
-puts array_num.my_inject{ |sum, n| sum + n }
+puts array_num.my_inject { |sum, n| sum + n }
 puts '-----------------'
 
 puts 'multiply_els'
