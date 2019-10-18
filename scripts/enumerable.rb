@@ -2,18 +2,26 @@
 
 module Enumerable
   def my_each
-    i = 0
-    while i < size
-      yield(self[i])
-      i += 1
+    if block_given?
+      i = 0
+      while i < size
+        yield(self[i])
+        i += 1
+      end
+    else
+      return to_enum
     end
   end
 
   def my_each_with_index
-    i = 0
-    while i < size
-      yield(self[i], i)
-      i += 1
+    if block_given?
+      i = 0
+      while i < size
+        yield(self[i], i)
+        i += 1
+      end
+    else
+      return to_enum
     end
   end
 
@@ -92,10 +100,18 @@ array_num.my_each do |item|
 end
 puts '-----------------'
 
+puts 'my_each no block'
+puts array_num.my_each
+puts '-----------------'
+
 puts 'my_each_with_index'
 array_num.my_each_with_index do |element, index|
   puts "#{element}: #{index}"
 end
+puts '-----------------'
+
+puts 'my_each_with_index no block'
+puts array_num.my_each_with_index
 puts '-----------------'
 
 puts 'my_select'
