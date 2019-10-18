@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Enumerable
   def my_each
     i = 0
@@ -105,15 +107,15 @@ puts array_num.my_all?(&:negative?)
 puts '-----------------'
 
 puts 'my_any?'
-puts array_num.my_any? { |item| item > 20 }
+puts array_num.my_any?(&Proc.new{ |item| item > 20 })
 puts '-----------------'
 
 puts 'my_none?'
-puts array_num.my_none? { |item| item > 50 }
+puts array_num.my_none?(&Proc.new{ |item| item > 50 })
 puts '-----------------'
 
 puts 'my_count with block'
-puts array_num.my_count { |item| item > 25 }
+puts array_num.my_count(&Proc.new{ |item| item > 25 })
 puts '-----------------'
 
 puts 'my_count with compare arg'
@@ -125,7 +127,7 @@ puts array_num.my_count
 puts '-----------------'
 
 puts 'my_map'
-puts array_num.my_map { |item| item**2 }
+puts array_num.my_map(&Proc.new{ |item| item**2 })
 puts '-----------------'
 
 puts 'my_map with no block'
@@ -133,11 +135,11 @@ puts array_num.my_map
 puts '-----------------'
 
 puts 'my_map with proc'
-puts array_num.my_map(&proc { |item| item + 1 })
+puts array_num.my_map(&Proc.new{ |item| item + 1 })
 puts '-----------------'
 
 puts 'my_inject'
-puts array_num.my_inject { |sum, n| sum + n }
+puts array_num.my_inject(&Proc.new{ |sum, n| sum + n })
 puts '-----------------'
 
 puts 'multiply_els'
