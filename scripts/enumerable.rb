@@ -25,10 +25,12 @@ module Enumerable
     select
   end
 
-  def my_all?
+  def my_all?(class_passed = nil)
     all = true
     if block_given?
       my_each { |item| all = false unless yield item }
+    elsif class_passed
+      my_each { |item| all = false unless item.is_a? class_passed }
     else
       my_each { |item| all = false unless item }
     end
@@ -126,6 +128,10 @@ puts '-----------------'
 
 puts 'my_all? no params'
 puts [false,true].my_all?
+puts '-----------------'
+
+puts 'my_all? class'
+puts array_num.my_all?(Integer)
 puts '-----------------'
 
 puts 'my_any?'
