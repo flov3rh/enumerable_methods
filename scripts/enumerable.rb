@@ -3,15 +3,17 @@
 module Enumerable
   def my_each
     return self.return_enum unless block_given?
-      i = 0
-      while i < size
-        yield(self[i])
-        i += 1
-      end
+
+    i = 0
+    while i < size
+      yield(self[i])
+      i += 1
+    end
   end
 
   def my_each_with_index
     return self.return_enum unless block_given?
+
     i = 0
     while i < size
       yield(self[i], i)
@@ -99,7 +101,7 @@ module Enumerable
   end
 
   def return_enum
-    return to_enum
+    to_enum
   end
 end
 
@@ -139,7 +141,7 @@ puts array_num.my_all?(&:negative?)
 puts '-----------------'
 
 puts 'my_all? no params'
-puts [false,true].my_all?
+puts [false, true].my_all?
 puts '-----------------'
 
 puts 'my_all? class'
@@ -155,7 +157,7 @@ puts array_num.my_any?
 puts '-----------------'
 
 puts 'my_any? class'
-puts [1,2,"A"].my_any?(String)
+puts [1, 2, "A"].my_any?(String)
 puts '-----------------'
 
 puts 'my_none?'
