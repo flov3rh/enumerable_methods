@@ -31,7 +31,7 @@ module Enumerable
 
   def my_all?(pattern = nil)
     all = true
-# rubocop:disable Style/CaseEquality
+    # rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| all = false unless yield item }
     elsif pattern
@@ -39,35 +39,35 @@ module Enumerable
     else
       my_each { |item| all = false unless item }
     end
-# rubocop:enable Style/CaseEquality
+    # rubocop:enable Style/CaseEquality
     all
   end
 
   def my_any?(pattern = nil)
     any = false
-# rubocop:disable Style/CaseEquality
+    # rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| any = true if yield item }
     elsif pattern
-      my_each { |item| any = true if pattern === item}
+      my_each { |item| any = true if pattern === item }
     else
       my_each { |item| any = true if item }
     end
-# rubocop:enable Style/CaseEquality
+    # rubocop:enable Style/CaseEquality
     any
   end
 
   def my_none?(pattern = nil)
     none = true
-# rubocop:disable Style/CaseEquality
+    # rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| none = false if yield item }
     elsif pattern
-      my_each { |item| none = false if pattern === item}
+      my_each { |item| none = false if pattern === item }
     else
       my_each { |item| none = false if item }
     end
-# rubocop:enable Style/CaseEquality
+    # rubocop:enable Style/CaseEquality
     none
   end
 
@@ -97,19 +97,19 @@ module Enumerable
 
   def my_inject(sym = nil, memo = self[0])
     raise 'No block given' unless block_given? || !sym.nil?
-# rubocop:disable Style/CaseEquality
+    # rubocop:disable Style/CaseEquality
     if sym
-      my_each { |item|
-        next if item===self[0]
-        memo=memo.send(sym,item)
-      }
+      my_each do |item|
+        next if item === self[0]
+        memo = memo.send(sym, item)
+      end
     else
-      my_each { |item|
-        next if item===self[0]
+      my_each do |item|
+        next if item === self[0]
         memo = yield(memo, item)
-      }
+      end
     end
-# rubocop:enable Style/CaseEquality
+    # rubocop:enable Style/CaseEquality
     memo
   end
 
@@ -118,11 +118,9 @@ module Enumerable
   end
 end
 
-
 def multiply_els(array)
   array.my_inject { |mult, item| mult * item }
 end
-
 
 #-------------------------------------------------------------------------------
 
