@@ -106,9 +106,9 @@ module Enumerable
         memo = memo.send(sym, item)
       end
     else
-      my_each do |item|
-        next if item === self[0]
-        
+      my_each_with_index do |item,index|
+        next if index === 0
+
         memo = yield(memo, item)
       end
     end
