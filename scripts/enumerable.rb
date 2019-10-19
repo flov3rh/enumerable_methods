@@ -29,12 +29,12 @@ module Enumerable
     select
   end
 
-  def my_all?(class_passed = nil)
+  def my_all?(pattern = nil)
     all = true
     if block_given?
       my_each { |item| all = false unless yield item }
-    elsif class_passed
-      my_each { |item| all = false unless item.is_a? class_passed }
+    elsif pattern
+      my_each { |item| all = false unless pattern === item }
     else
       my_each { |item| all = false unless item }
     end
@@ -152,6 +152,10 @@ puts '-----------------'
 
 puts 'my_all? class'
 puts array_num.my_all?(Integer)
+puts '-----------------'
+
+puts 'my_all? pattern'
+puts %w[ant bat cat].my_all?(/t/)
 puts '-----------------'
 
 puts 'my_any?'
