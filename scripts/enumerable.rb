@@ -2,26 +2,20 @@
 
 module Enumerable
   def my_each
-    if block_given?
+    return self.return_enum unless block_given?
       i = 0
       while i < size
         yield(self[i])
         i += 1
       end
-    else
-      return to_enum
-    end
   end
 
   def my_each_with_index
-    if block_given?
-      i = 0
-      while i < size
-        yield(self[i], i)
-        i += 1
-      end
-    else
-      return to_enum
+    return self.return_enum unless block_given?
+    i = 0
+    while i < size
+      yield(self[i], i)
+      i += 1
     end
   end
 
@@ -84,6 +78,10 @@ module Enumerable
   def multiply_els(array)
     result = 1
     array.my_inject(result) { |mult, item| result = mult * item }
+  end
+
+  def return_enum
+    return to_enum
   end
 end
 
