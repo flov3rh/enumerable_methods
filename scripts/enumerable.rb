@@ -31,8 +31,7 @@ module Enumerable
 
   def my_all?(pattern = nil)
     all = true
-
-# rubocop:disable all
+# rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| all = false unless yield item }
     elsif pattern
@@ -40,15 +39,13 @@ module Enumerable
     else
       my_each { |item| all = false unless item }
     end
-
-# rubocop:enable all
+# rubocop:enable Style/CaseEquality
     all
   end
 
   def my_any?(pattern = nil)
     any = false
-
-# rubocop:disable all
+# rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| any = true if yield item }
     elsif pattern
@@ -56,15 +53,13 @@ module Enumerable
     else
       my_each { |item| any = true if item }
     end
-
-# rubocop:enable all
+# rubocop:enable Style/CaseEquality
     any
   end
 
   def my_none?(pattern = nil)
     none = true
-
-# rubocop:disable all
+# rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| none = false if yield item }
     elsif pattern
@@ -72,8 +67,7 @@ module Enumerable
     else
       my_each { |item| none = false if item }
     end
-
-# rubocop:enable all
+# rubocop:enable Style/CaseEquality
     none
   end
 
@@ -103,8 +97,7 @@ module Enumerable
 
   def my_inject(sym = nil, memo = self[0])
     raise 'No block given' unless block_given? || !sym.nil?
-
-# rubocop:disable all
+# rubocop:disable Style/CaseEquality
     if sym
       my_each { |item|
         next if item===self[0]
@@ -116,19 +109,20 @@ module Enumerable
         memo = yield(memo, item)
       }
     end
-# rubocop:enable all
-
+# rubocop:enable Style/CaseEquality
     memo
-  end
-
-  def multiply_els(array)
-    array.my_inject { |mult, item| mult * item }
   end
 
   def return_enum
     to_enum
   end
 end
+
+
+def multiply_els(array)
+  array.my_inject { |mult, item| mult * item }
+end
+
 
 #-------------------------------------------------------------------------------
 
@@ -238,9 +232,9 @@ puts array_num.my_inject(&proc { |sum, n| sum + n })
 puts '-----------------'
 
 puts 'my_inject symbol'
-puts array_num.my_inject(:-)
+puts array_num.my_inject(:+)
 puts '-----------------'
 
 puts 'multiply_els'
-puts [2, 4, 5].multiply_els([2, 4, 5])
+puts multiply_els([2, 4, 5])
 puts '-----------------'
