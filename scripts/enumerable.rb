@@ -22,6 +22,8 @@ module Enumerable
   end
 
   def my_select
+    return return_enum unless block_given?
+
     select = []
     my_each { |item| select << item if yield item }
     select
@@ -134,6 +136,10 @@ puts '-----------------'
 
 puts 'my_select'
 puts array_num.my_select(&:even?)
+puts '-----------------'
+
+puts 'my_select no block'
+puts array_num.my_select
 puts '-----------------'
 
 puts 'my_all?'
