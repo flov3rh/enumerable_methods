@@ -27,7 +27,11 @@ module Enumerable
 
   def my_all?
     all = true
-    my_each { |item| all = false unless yield item }
+    if block_given?
+      my_each { |item| all = false unless yield item }
+    else
+      my_each { |item| all = false unless item }
+    end
     all
   end
 
@@ -118,6 +122,10 @@ puts '-----------------'
 
 puts 'my_all?'
 puts array_num.my_all?(&:negative?)
+puts '-----------------'
+
+puts 'my_all? no params'
+puts [false,true].my_all?
 puts '-----------------'
 
 puts 'my_any?'
