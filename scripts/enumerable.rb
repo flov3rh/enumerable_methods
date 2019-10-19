@@ -97,15 +97,18 @@ module Enumerable
 
   def my_inject(sym = nil, memo = self[0])
     raise 'No block given' unless block_given? || !sym.nil?
+
     # rubocop:disable Style/CaseEquality
     if sym
       my_each_with_index do |item, index|
         next if index === 0
+
         memo = memo.send(sym, item)
       end
     else
       my_each do |item|
         next if item === self[0]
+        
         memo = yield(memo, item)
       end
     end
