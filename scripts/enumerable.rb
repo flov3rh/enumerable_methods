@@ -2,7 +2,7 @@
 
 module Enumerable
   def my_each
-    return self.return_enum unless block_given?
+    return return_enum unless block_given?
 
     i = 0
     while i < size
@@ -12,7 +12,7 @@ module Enumerable
   end
 
   def my_each_with_index
-    return self.return_enum unless block_given?
+    return return_enum unless block_given?
 
     i = 0
     while i < size
@@ -58,7 +58,7 @@ module Enumerable
     elsif class_passed
       my_each { |item| none = false if item.is_a? class_passed }
     else
-      my_each { |item| none = false if item}
+      my_each { |item| none = false if item }
     end
     none
   end
@@ -157,7 +157,7 @@ puts array_num.my_any?
 puts '-----------------'
 
 puts 'my_any? class'
-puts [1, 2, "A"].my_any?(String)
+puts [1, 2, 'A'].my_any?(String)
 puts '-----------------'
 
 puts 'my_none?'
