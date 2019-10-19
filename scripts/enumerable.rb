@@ -49,9 +49,15 @@ module Enumerable
     any
   end
 
-  def my_none?
+  def my_none?(class_passed = nil)
     none = true
-    my_each { |item| none = false if yield item }
+    if block_given?
+      my_each { |item| none = false if yield item }
+    elsif class_passed
+      my_each { |item| none = false if item.is_a? class_passed }
+    else
+      my_each { |item| none = false if item}
+    end
     none
   end
 
@@ -154,6 +160,14 @@ puts '-----------------'
 
 puts 'my_none?'
 puts array_num.my_none?(&proc { |item| item > 50 })
+puts '-----------------'
+
+puts 'my_none? no block'
+puts array_num.my_none?
+puts '-----------------'
+
+puts 'my_none? class'
+puts array_num.my_none?(String)
 puts '-----------------'
 
 puts 'my_count with block'
