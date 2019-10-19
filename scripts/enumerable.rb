@@ -37,9 +37,15 @@ module Enumerable
     all
   end
 
-  def my_any?
+  def my_any?(class_passed = nil)
     any = false
-    my_each { |item| any = true if yield item }
+    if block_given?
+      my_each { |item| any = true if yield item }
+    elsif class_passed
+      my_each { |item| any = true if item.is_a? class_passed }
+    else
+      my_each { |item| any = true if item }
+    end
     any
   end
 
@@ -136,6 +142,14 @@ puts '-----------------'
 
 puts 'my_any?'
 puts array_num.my_any?(&proc { |item| item > 20 })
+puts '-----------------'
+
+puts 'my_any? no block'
+puts array_num.my_any?
+puts '-----------------'
+
+puts 'my_any? class'
+puts [1,2,"A"].my_any?(String)
 puts '-----------------'
 
 puts 'my_none?'
