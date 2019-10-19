@@ -2,7 +2,7 @@
 
 module Enumerable
   def my_each
-    return return_enum unless block_given?
+    return to_enum unless block_given?
 
     i = 0
     while i < size
@@ -12,7 +12,7 @@ module Enumerable
   end
 
   def my_each_with_index
-    return return_enum unless block_given?
+    return to_enum unless block_given?
 
     i = 0
     while i < size
@@ -22,7 +22,7 @@ module Enumerable
   end
 
   def my_select
-    return return_enum unless block_given?
+    return to_enum unless block_given?
 
     select = []
     my_each { |item| select << item if yield item }
@@ -39,35 +39,35 @@ module Enumerable
     else
       my_each { |item| all = false unless item }
     end
-    # rubocop:enable Style/CaseEquality
+# rubocop:enable Style/CaseEquality
     all
   end
 
   def my_any?(pattern = nil)
     any = false
-    # rubocop:disable Style/CaseEquality
+# rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| any = true if yield item }
     elsif pattern
-      my_each { |item| any = true if pattern === item }
+      my_each { |item| any = true if pattern === item}
     else
       my_each { |item| any = true if item }
     end
-    # rubocop:enable Style/CaseEquality
+# rubocop:enable Style/CaseEquality
     any
   end
 
   def my_none?(pattern = nil)
     none = true
-    # rubocop:disable Style/CaseEquality
+# rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| none = false if yield item }
     elsif pattern
-      my_each { |item| none = false if pattern === item }
+      my_each { |item| none = false if pattern === item}
     else
       my_each { |item| none = false if item }
     end
-    # rubocop:enable Style/CaseEquality
+# rubocop:enable Style/CaseEquality
     none
   end
 
@@ -97,30 +97,28 @@ module Enumerable
 
   def my_inject(sym = nil, memo = self[0])
     raise 'No block given' unless block_given? || !sym.nil?
-    # rubocop:disable Style/CaseEquality
+# rubocop:disable Style/CaseEquality
     if sym
-      my_each do |item|
-        next if item === self[0]
-        memo = memo.send(sym, item)
-      end
+      my_each_with_index { |item,index|
+        next if index===0
+        memo=memo.send(sym,item)
+      }
     else
-      my_each do |item|
-        next if item === self[0]
+      my_each { |item|
+        next if item===self[0]
         memo = yield(memo, item)
-      end
+      }
     end
-    # rubocop:enable Style/CaseEquality
+# rubocop:enable Style/CaseEquality
     memo
   end
-
-  def return_enum
-    to_enum
-  end
 end
+
 
 def multiply_els(array)
   array.my_inject { |mult, item| mult * item }
 end
+
 
 #-------------------------------------------------------------------------------
 
@@ -230,7 +228,7 @@ puts array_num.my_inject(&proc { |sum, n| sum + n })
 puts '-----------------'
 
 puts 'my_inject symbol'
-puts array_num.my_inject(:+)
+puts [2,2,2,2,4,5,6,7,8,9,10].my_inject(:+)
 puts '-----------------'
 
 puts 'multiply_els'
