@@ -31,6 +31,8 @@ module Enumerable
 
   def my_all?(pattern = nil)
     all = true
+
+# rubocop:disable all
     if block_given?
       my_each { |item| all = false unless yield item }
     elsif pattern
@@ -38,11 +40,15 @@ module Enumerable
     else
       my_each { |item| all = false unless item }
     end
+
+# rubocop:enable all
     all
   end
 
   def my_any?(pattern = nil)
     any = false
+
+# rubocop:disable all
     if block_given?
       my_each { |item| any = true if yield item }
     elsif pattern
@@ -50,11 +56,15 @@ module Enumerable
     else
       my_each { |item| any = true if item }
     end
+
+# rubocop:enable all
     any
   end
 
   def my_none?(pattern = nil)
     none = true
+
+# rubocop:disable all
     if block_given?
       my_each { |item| none = false if yield item }
     elsif pattern
@@ -62,6 +72,8 @@ module Enumerable
     else
       my_each { |item| none = false if item }
     end
+
+# rubocop:enable all
     none
   end
 
@@ -89,9 +101,10 @@ module Enumerable
     map
   end
 
-  def my_inject(sym=nil, memo=self[0])
-    raise 'No block given' unless block_given? || sym!=nil
+  def my_inject(sym = nil, memo = self[0])
+    raise 'No block given' unless block_given? || !sym.nil?
 
+# rubocop:disable all
     if sym
       my_each { |item|
         next if item===self[0]
@@ -103,12 +116,13 @@ module Enumerable
         memo = yield(memo, item)
       }
     end
+# rubocop:enable all
 
     memo
   end
 
   def multiply_els(array)
-    return array.my_inject { |mult, item| mult * item }
+    array.my_inject { |mult, item| mult * item }
   end
 
   def return_enum
