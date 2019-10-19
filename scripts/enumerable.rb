@@ -198,6 +198,10 @@ puts 'my_inject'
 puts array_num.my_inject(&proc { |sum, n| sum + n })
 puts '-----------------'
 
+puts 'my_inject symbol'
+puts array_num.my_inject(&:-)
+puts '-----------------'
+
 puts 'multiply_els'
 puts [2, 4, 5].multiply_els([2, 4, 5])
 puts '-----------------'
