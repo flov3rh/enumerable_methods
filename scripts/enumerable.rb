@@ -53,12 +53,12 @@ module Enumerable
     any
   end
 
-  def my_none?(class_passed = nil)
+  def my_none?(pattern = nil)
     none = true
     if block_given?
       my_each { |item| none = false if yield item }
-    elsif class_passed
-      my_each { |item| none = false if item.is_a? class_passed }
+    elsif pattern
+      my_each { |item| none = false if pattern === item}
     else
       my_each { |item| none = false if item }
     end
