@@ -89,17 +89,26 @@ module Enumerable
     map
   end
 
-  def my_inject(param = nil)
-    raise 'No block given' unless block_given?
+  def my_inject(sym=nil, memo=self[0])
+    raise 'No block given' unless block_given? || sym!=nil
 
-    memo = param || 0
-    my_each { |item| memo = yield(memo, item) }
+    if sym
+      my_each { |item|
+        next if item===self[0]
+        memo=memo.send(sym,item)
+      }
+    else
+      my_each { |item|
+        next if item===self[0]
+        memo = yield(memo, item)
+      }
+    end
+
     memo
   end
 
   def multiply_els(array)
-    result = 1
-    array.my_inject(result) { |mult, item| result = mult * item }
+    return array.my_inject { |mult, item| mult * item }
   end
 
   def return_enum
@@ -215,7 +224,7 @@ puts array_num.my_inject(&proc { |sum, n| sum + n })
 puts '-----------------'
 
 puts 'my_inject symbol'
-puts array_num.my_inject(&:-)
+puts array_num.my_inject(:-)
 puts '-----------------'
 
 puts 'multiply_els'
