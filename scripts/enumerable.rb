@@ -41,12 +41,12 @@ module Enumerable
     all
   end
 
-  def my_any?(class_passed = nil)
+  def my_any?(pattern = nil)
     any = false
     if block_given?
       my_each { |item| any = true if yield item }
-    elsif class_passed
-      my_each { |item| any = true if item.is_a? class_passed }
+    elsif pattern
+      my_each { |item| any = true if pattern === item}
     else
       my_each { |item| any = true if item }
     end
@@ -168,6 +168,10 @@ puts '-----------------'
 
 puts 'my_any? class'
 puts [1, 2, 'A'].my_any?(String)
+puts '-----------------'
+
+puts 'my_any? pattern'
+puts %w[1 5 1].my_any?(/t/)
 puts '-----------------'
 
 puts 'my_none?'
