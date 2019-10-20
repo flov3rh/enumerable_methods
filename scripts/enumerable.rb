@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
+
 module Enumerable
   def my_each
     return to_enum unless block_given?
@@ -31,21 +33,19 @@ module Enumerable
 
   def my_all?(pattern = nil)
     all = true
-    # rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| all = false unless yield item }
     elsif pattern
+      # rubocop:disable Style/CaseEquality
       my_each { |item| all = false unless pattern === item }
     else
       my_each { |item| all = false unless item }
     end
-    # rubocop:enable Style/CaseEquality
     all
   end
 
   def my_any?(pattern = nil)
     any = false
-    # rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| any = true if yield item }
     elsif pattern
@@ -53,21 +53,19 @@ module Enumerable
     else
       my_each { |item| any = true if item }
     end
-    # rubocop:enable Style/CaseEquality
     any
   end
 
   def my_none?(pattern = nil)
     none = true
-    # rubocop:disable Style/CaseEquality
     if block_given?
       my_each { |item| none = false if yield item }
     elsif pattern
       my_each { |item| none = false if pattern === item }
+      # rubocop:enable Style/CaseEquality
     else
       my_each { |item| none = false if item }
     end
-    # rubocop:enable Style/CaseEquality
     none
   end
 
@@ -95,28 +93,29 @@ module Enumerable
     map
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def my_inject(*args)
-    memo = args[0] || self[0]
-    if !block_given? && args.nil?
-      raise 'no block_given'
+    raise 'no block_given' if !block_given? && args.nil?
 
-    elsif block_given? && args.empty?
+    memo = args[0] || self[0]
+    if block_given? && args.empty?
       my_each_with_index do |item, index|
-        next if index == 0
+        next if index.zero?
 
         memo = yield(item, memo)
       end
     elsif block_given? && args[0]
       memo = self[0]
       my_each_with_index do |item, index|
-        next if index == 0
+        next if index.zero?
 
         memo = yield(item, memo)
       end
     elsif args[0].is_a? Symbol
       memo = self[0]
       my_each_with_index do |item, index|
-        next if index == 0
+        next if index.zero?
         memo = memo.send(args[0], item)
       end
     else
@@ -127,8 +126,7 @@ module Enumerable
     end
     memo
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
 end
-
-def multiply_els(array)
-  array.my_inject { |mult, item| mult * item }
-end
+# rubocop:enable Metrics/ModuleLength
