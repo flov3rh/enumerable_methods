@@ -98,36 +98,35 @@ module Enumerable
   def my_inject(*args)
     memo = args[0] || self[0]
     if !block_given? && args.nil?
-      raise "no block_given"
+      raise 'no block_given'
 
     elsif block_given? && args.empty?
       my_each_with_index do |item, index|
-        next if index==0
+        next if index == 0
 
-        memo= yield(item,memo)
+        memo = yield(item, memo)
       end
     elsif block_given? && args[0]
-      memo=self[0]
+      memo = self[0]
       my_each_with_index do |item, index|
-        next if index==0
+        next if index == 0
 
-        memo= yield(item,memo)
+        memo = yield(item, memo)
       end
     elsif args[0].is_a? Symbol
-      memo=self[0]
+      memo = self[0]
       my_each_with_index do |item, index|
-        next if index==0
+        next if index == 0
         memo = memo.send(args[0], item)
       end
     else
-      memo=args[0]
-      my_each_with_index do |item, index|
+      memo = args[0]
+      my_each_with_index do |item, _index|
         memo = memo.send(args[1], item)
       end
     end
     memo
   end
-
 end
 
 def multiply_els(array)
