@@ -95,144 +95,41 @@ module Enumerable
     map
   end
 
-  def my_inject(sym = nil, memo = self[0])
-    raise 'No block given' unless block_given? || !sym.nil?
+  def my_inject(*args)
+    memo = args[0] || self[0]
+    if !block_given? && args.nil?
+      raise "no block_given"
 
-    # rubocop:disable Style/CaseEquality
-    if sym
+    elsif block_given? && args.empty?
       my_each_with_index do |item, index|
-        next if index === 0
+        next if index==0
 
-        memo = memo.send(sym, item)
+        memo= yield(item,memo)
+      end
+    elsif block_given? && args[0]
+      memo=self[0]
+      my_each_with_index do |item, index|
+        next if index==0
+
+        memo= yield(item,memo)
+      end
+    elsif args[0].is_a? Symbol
+      memo=self[0]
+      my_each_with_index do |item, index|
+        next if index==0
+        memo = memo.send(args[0], item)
       end
     else
+      memo=args[0]
       my_each_with_index do |item, index|
-        next if index === 0
-
-        memo = yield(memo, item)
+        memo = memo.send(args[1], item)
       end
     end
-    # rubocop:enable Style/CaseEquality
     memo
   end
+
 end
 
 def multiply_els(array)
   array.my_inject { |mult, item| mult * item }
 end
-
-#-------------------------------------------------------------------------------
-# #test cases
-#
-# puts 'Created Array'
-# array_num = (1..30).to_a
-# puts array_num.to_s
-# puts '-----------------'
-#
-# puts 'my_each'
-# array_num.my_each do |item|
-#   puts item
-# end
-# puts '-----------------'
-#
-# puts 'my_each no block'
-# puts array_num.my_each
-# puts '-----------------'
-#
-# puts 'my_each_with_index'
-# array_num.my_each_with_index do |element, index|
-#   puts "#{element}: #{index}"
-# end
-# puts '-----------------'
-#
-# puts 'my_each_with_index no block'
-# puts array_num.my_each_with_index
-# puts '-----------------'
-#
-# puts 'my_select'
-# puts array_num.my_select(&:even?)
-# puts '-----------------'
-#
-# puts 'my_select no block'
-# puts array_num.my_select
-# puts '-----------------'
-#
-# puts 'my_all?'
-# puts array_num.my_all?(&:negative?)
-# puts '-----------------'
-#
-# puts 'my_all? no params'
-# puts [false, true].my_all?
-# puts '-----------------'
-#
-# puts 'my_all? class'
-# puts array_num.my_all?(Integer)
-# puts '-----------------'
-#
-# puts 'my_all? pattern'
-# puts %w[ant bat cat].my_all?(/t/)
-# puts '-----------------'
-#
-# puts 'my_any?'
-# puts array_num.my_any?(&proc { |item| item > 20 })
-# puts '-----------------'
-#
-# puts 'my_any? no block'
-# puts array_num.my_any?
-# puts '-----------------'
-#
-# puts 'my_any? class'
-# puts [1, 2, 'A'].my_any?(String)
-# puts '-----------------'
-#
-# puts 'my_any? pattern'
-# puts %w[1 5 1].my_any?(/t/)
-# puts '-----------------'
-#
-# puts 'my_none?'
-# puts array_num.my_none?(&proc { |item| item > 50 })
-# puts '-----------------'
-#
-# puts 'my_none? no block'
-# puts array_num.my_none?
-# puts '-----------------'
-#
-# puts 'my_none? class'
-# puts array_num.my_none?(String)
-# puts '-----------------'
-#
-# puts 'my_count with block'
-# puts array_num.my_count(&proc { |item| item > 25 })
-# puts '-----------------'
-#
-# puts 'my_count with compare arg'
-# puts array_num.my_count(5)
-# puts '-----------------'
-#
-# puts 'my_count with no block'
-# puts array_num.my_count
-# puts '-----------------'
-#
-# puts 'my_map'
-# puts array_num.my_map(&proc { |item| item**2 })
-# puts '-----------------'
-#
-# puts 'my_map with no block'
-# puts array_num.my_map
-# puts '-----------------'
-#
-# puts 'my_map with proc'
-# puts array_num.my_map(&proc { |item| item + 1 })
-# puts '-----------------'
-#
-# puts 'my_inject'
-# puts array_num.my_inject(&proc { |sum, n| sum + n })
-# puts '-----------------'
-#
-# puts 'my_inject symbol'
-# puts [2, 2, 2, 2, 4, 5, 6, 7, 8, 9, 10].my_inject(:+)
-# puts '-----------------'
-#
-# puts 'multiply_els'
-# puts multiply_els([2, 4, 5])
-# puts '-----------------'
