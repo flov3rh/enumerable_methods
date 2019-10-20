@@ -116,7 +116,7 @@ module Enumerable
       memo = self[0]
       my_each_with_index do |item, index|
         next if index.zero?
-        
+
         memo = memo.send(args[0], item)
       end
     else
