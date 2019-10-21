@@ -107,9 +107,8 @@ module Enumerable
         memo = yield(item, memo)
       end
     elsif block_given? && args[0]
-      puts 'this?'
       memo = args[0]
-      array.my_each_with_index do |item, _index|
+      array.my_each do |item|
         memo = yield(item, memo)
       end
     elsif args[0].is_a? Symbol
@@ -131,14 +130,3 @@ module Enumerable
   # rubocop:enable Metrics/PerceivedComplexity
 end
 # rubocop:enable Metrics/ModuleLength
-
-range = Range.new(5, 50)
-
-puts 'range'
-puts range
-puts '--------------'
-puts 'inject'
-puts range.inject(4) { |prod, n| prod * n }
-
-puts 'my inject'
-puts range.my_inject(4) { |prod, n| prod * n }
