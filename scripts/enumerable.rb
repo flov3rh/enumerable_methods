@@ -98,30 +98,30 @@ module Enumerable
   def my_inject(*args)
     raise 'no block_given' if !block_given? && args.nil?
 
-    memo = args[0] || self[0]
+    array = self.to_a
+    memo = args[0] || array[0]
     if block_given? && args.empty?
-      my_each_with_index do |item, index|
+      array.my_each_with_index do |item, index|
         next if index.zero?
 
         memo = yield(item, memo)
       end
     elsif block_given? && args[0]
-      memo = self[0]
-      my_each_with_index do |item, index|
-        next if index.zero?
-
+      puts "this?"
+      memo = args[0]
+      array.my_each_with_index do |item, index|
         memo = yield(item, memo)
       end
     elsif args[0].is_a? Symbol
-      memo = self[0]
-      my_each_with_index do |item, index|
+      memo = array[0]
+      array.my_each_with_index do |item, index|
         next if index.zero?
 
         memo = memo.send(args[0], item)
       end
     else
       memo = args[0]
-      my_each_with_index do |item, _index|
+      array.my_each_with_index do |item, _index|
         memo = memo.send(args[1], item)
       end
     end
@@ -131,3 +131,14 @@ module Enumerable
   # rubocop:enable Metrics/PerceivedComplexity
 end
 # rubocop:enable Metrics/ModuleLength
+
+range = Range.new(5, 50)
+
+puts "range"
+puts range
+puts "--------------"
+puts "inject"
+puts range.inject(4) { |prod, n| prod * n }
+
+puts "my inject"
+puts range.my_inject(4) { |prod, n| prod * n }
