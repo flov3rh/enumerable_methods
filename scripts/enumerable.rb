@@ -98,7 +98,7 @@ module Enumerable
   def my_inject(*args)
     raise 'no block_given' if !block_given? && args.nil?
 
-    array = self.to_a
+    array = to_a
     memo = args[0] || array[0]
     if block_given? && args.empty?
       array.my_each_with_index do |item, index|
@@ -107,9 +107,9 @@ module Enumerable
         memo = yield(item, memo)
       end
     elsif block_given? && args[0]
-      puts "this?"
+      puts 'this?'
       memo = args[0]
-      array.my_each_with_index do |item, index|
+      array.my_each_with_index do |item, _index|
         memo = yield(item, memo)
       end
     elsif args[0].is_a? Symbol
@@ -134,11 +134,11 @@ end
 
 range = Range.new(5, 50)
 
-puts "range"
+puts 'range'
 puts range
-puts "--------------"
-puts "inject"
+puts '--------------'
+puts 'inject'
 puts range.inject(4) { |prod, n| prod * n }
 
-puts "my inject"
+puts 'my inject'
 puts range.my_inject(4) { |prod, n| prod * n }
