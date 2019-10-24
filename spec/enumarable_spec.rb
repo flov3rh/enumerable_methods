@@ -42,4 +42,18 @@ RSpec.describe 'Enumerable' do
     }
     expect(a.my_count).to eql(4)
   end
+
+  it "returns the original indexes of the array" do
+    r = []
+    [1,2,3].my_each_with_index { |element, index| r << index }
+    expect(r).to eql([0,1,2])
+  end
+
+  it "returns element bigger then 3" do
+    expect([1,2,4].my_select { |i| i > 3}).to eql([4])
+  end
+
+  it "returns element if is any in the array" do
+    expect([1,2,4].my_any? { |i| i > 3}).to eql(true)
+  end
 end
