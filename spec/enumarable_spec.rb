@@ -22,6 +22,10 @@ RSpec.describe 'Enumerable' do
   end
 
   it "returns the sum of all of it's elements recieving a symbol" do
-    expect([4, 6 , 8, 10].my_inject(:+)).to eq(28)    
+    expect([4 , 6 , 8, 10].my_inject(:+)).to eq(28)
+  end
+
+  it "checks if all the values are integers" do
+    expect([1,2,3,4,1].my_all?(Integer)).to eql(true)
   end
 end
