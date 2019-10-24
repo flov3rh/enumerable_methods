@@ -28,4 +28,8 @@ RSpec.describe 'Enumerable' do
   it "checks if all the values are integers" do
     expect([1,2,3,4,1].my_all?(Integer)).to eql(true)
   end
+
+  it "check if none of the elements in the array are strings" do
+    expect([1,2,3,4,5,6].my_none?(String)).to eql(true)
+  end
 end
