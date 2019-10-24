@@ -32,4 +32,14 @@ RSpec.describe 'Enumerable' do
   it "check if none of the elements in the array are strings" do
     expect([1,2,3,4,5,6].my_none?(String)).to eql(true)
   end
+
+  it "count the number of elemnts in a hash" do
+    a= {
+      1 => "Haha",
+      2 => "Hehe",
+      3 => "Hihi",
+      4 => "Hoho"
+    }
+    expect(a.my_count).to eql(4)
+  end
 end
