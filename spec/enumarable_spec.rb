@@ -20,4 +20,8 @@ RSpec.describe 'Enumerable' do
   it "returns an enumerable if not passed a block" do
     expect([1,2,3].my_each).to be_a(Enumerable)
   end
+
+  it "returns the sum of all of it's elements recieving a symbol" do
+    expect([4, 6 , 8, 10].my_inject(:+)).to eq(28)    
+  end
 end
