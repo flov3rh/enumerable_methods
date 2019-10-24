@@ -4,7 +4,7 @@ require_relative '../scripts/enumerable.rb'
 
 RSpec.describe 'Enumerable' do
   describe '#my_each' do
-    let (:a) {[1, 2, 3]}
+    let(:a) { [1, 2, 3] }
     it 'goes through all elments in the list and add 1' do
       r = []
       a.my_each { |i| r << i + 1 }
@@ -22,42 +22,52 @@ RSpec.describe 'Enumerable' do
     end
   end
 
-
-  describe "#my_inject" do
-    let(:a){[4, 6, 8, 10].my_inject(:+)}
+  describe '#my_inject' do
+    let(:a) { [4, 6, 8, 10].my_inject(:+) }
     it "returns the sum of all of it's elements recieving a symbol" do
       expect(a).to eq(28)
     end
   end
 
-  describe "#my_all" do
-    let(:a){[1, 2, 3, 4, 1]}
+  describe '#my_all' do
+    let(:a) { [1, 2, 3, 4, 1] }
     it 'checks if all the values are integers' do
       expect(a.my_all?(Integer)).to eql(true)
     end
-  end
 
-  describe "my_none?" do
-    let(:a){[1, 2, 3, 4, 5, 6]}
-    it 'check if none of the elements in the array are strings' do
-      expect(a.my_none?(String)).to eql(true)
+    it 'checks if all the values are integers bigger then ' do
+      expect(a.my_all? { |i| i > 3 }).not_to eql(true)
     end
   end
 
-  describe "#my_count" do
-    let(:d) {{
-      1 => 'Haha',
-      2 => 'Hehe',
-      3 => 'Hihi',
-      4 => 'Hoho'
-    }}
+  describe 'my_none?' do
+    let(:a) { [1, 2, 3, 4, 5, 6] }
+    it 'check if none of the elements in the array are strings' do
+      expect(a.my_none?(String)).to eql(true)
+    end
+
+    it 'check if none of the elements in the array are strings' do
+      a << 'string'
+      expect(a.my_none?(String)).not_to eql(true)
+    end
+  end
+
+  describe '#my_count' do
+    let(:d) do
+      {
+        1 => 'Haha',
+        2 => 'Hehe',
+        3 => 'Hihi',
+        4 => 'Hoho'
+      }
+    end
     it 'count the number of elemnts in a hash' do
       expect(d.my_count).to eql(4)
     end
   end
 
-  describe "#my_each_with_index" do
-    let(:a){[1,2,3]}
+  describe '#my_each_with_index' do
+    let(:a) { [1, 2, 3] }
     it 'returns the original indexes of the array' do
       r = []
       a.my_each_with_index { |_element, index| r << index }
@@ -65,17 +75,21 @@ RSpec.describe 'Enumerable' do
     end
   end
 
-  describe "#my_select" do
-    let(:a) {[1,2,4]}
+  describe '#my_select' do
+    let(:a) { [1, 2, 4] }
     it 'returns element bigger then 3' do
       expect(a.my_select { |i| i > 3 }).to eql([4])
     end
   end
 
-  describe "my_any?" do
-    let(:a){[1,2,4]}
+  describe 'my_any?' do
+    let(:a) { [1, 2, 4] }
     it 'returns true if any in the array' do
       expect(a.my_any? { |i| i > 3 }).to eql(true)
+    end
+
+    it 'returns false if any in the array' do
+      expect(a.my_any? { |i| i > 4 }).not_to eql(true)
     end
   end
 end
